@@ -1,9 +1,7 @@
 package com.example
 
 import com.example.repository.UserDataSource
-import com.example.routes.UnauthorizedRoute
-import com.example.routes.authorizedRoute
-import com.example.routes.tokenVerificationRoute
+import com.example.routes.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.*
@@ -21,6 +19,11 @@ fun Application.configureRouting() {
     routing {
         val userDataSource: UserDataSource by inject(UserDataSource::class.java)
         UnauthorizedRoute()
+        deleteUserRoute(application,userDataSource)
+        signOutRoute()
+        //userRoutes() route pour tester mongo
+        getUserInfoRoute(application,userDataSource)
+        updateUserInfoRoute(application,userDataSource)
         authorizedRoute()
         tokenVerificationRoute(application, userDataSource)
     }
